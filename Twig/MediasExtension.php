@@ -91,7 +91,12 @@ class MediasExtension extends \Twig_Extension
             $className = $this->provider->getClassName();
 
             if ($ids) {
-                foreach ($results as $media) {
+                foreach ($results as $key => $media) {
+                    if (is_array($media)) {
+                        $orderedMedias[$key] = $this->provider->getMediaDetails($this->request, $media);
+                        continue;
+                    }
+
                     if (!$media instanceof $className) {
                         continue;
                     }
@@ -129,7 +134,7 @@ class MediasExtension extends \Twig_Extension
         $accessor = PropertyAccess::createPropertyAccessor();
 
         if ($value) {
-            $ids       = explode(';', $value);
+            $ids       = preg_match('/;/', $value) ? explode(';', $value) : $value;
             $results   = $this->provider->find($ids);
             $className = $this->provider->getClassName();
 
