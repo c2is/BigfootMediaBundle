@@ -69,7 +69,7 @@ class Media
      *
      * @var array
      */
-    private $sortedMetadatas;
+    private $sortedMetadatas = array();
 
     /**
      * @var \DateTime $createdAt
